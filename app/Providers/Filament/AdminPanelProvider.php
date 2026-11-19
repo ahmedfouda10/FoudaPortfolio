@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\AvatarProviders\InitialsAvatarProvider;
+use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\PreventIndexingAndCaching;
 use App\Support\PublicContentCache;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
@@ -85,6 +86,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->middleware([
+                AddSecurityHeaders::class,
                 PreventIndexingAndCaching::class,
             ], isPersistent: true)
             ->authMiddleware([

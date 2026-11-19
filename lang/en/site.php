@@ -120,4 +120,14 @@ return [
         'counter' => 'Image :current of :total',
     ],
 
+    'errors' => [
+        'back_home' => 'Back to the home page',
+        '403' => ['title' => 'Access denied', 'message' => 'You don’t have permission to view this page.'],
+        '404' => ['title' => 'Page not found', 'message' => 'The page you’re looking for doesn’t exist or has been moved.'],
+        '419' => ['title' => 'Page expired', 'message' => 'Your session expired. Please go back, refresh the page and try again.'],
+        '429' => ['title' => 'Too many requests', 'message' => 'Please slow down and try again in a minute.'],
+        '500' => ['title' => 'Something went wrong', 'message' => 'An unexpected error occurred. Please try again in a moment.'],
+        '503' => ['title' => 'Back soon', 'message' => 'The site is down for a short maintenance. Please check back in a few minutes.'],
+    ],
+
 ];

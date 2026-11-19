@@ -1,9 +1,223 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views';
+
+/* Dark mode is driven by the `dark` class on <html> (see the theme script in the layout). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+|--------------------------------------------------------------------------
+| Design tokens
+|--------------------------------------------------------------------------
+| The whole palette is derived from these variables. To change the accent
+| color of the site, change --accent-hue (an OKLCH hue angle) only.
+*/
+:root {
+    --accent-hue: 277; /* indigo */
+
+    --accent: oklch(0.51 0.23 var(--accent-hue));
+    --accent-strong: oklch(0.45 0.22 var(--accent-hue));
+    --accent-contrast: oklch(0.99 0 0);
+
+    --background: oklch(0.985 0.002 265);
+    --surface: oklch(1 0 0);
+    --surface-muted: oklch(0.965 0.005 265);
+    --border: oklch(0.91 0.007 265);
+    --foreground: oklch(0.21 0.02 265);
+    --muted: oklch(0.47 0.02 265);
+
+    color-scheme: light;
+}
+
+.dark {
+    --accent: oklch(0.75 0.14 var(--accent-hue));
+    --accent-strong: oklch(0.82 0.11 var(--accent-hue));
+    --accent-contrast: oklch(0.18 0.04 var(--accent-hue));
+
+    --background: oklch(0.155 0.008 265);
+    --surface: oklch(0.195 0.01 265);
+    --surface-muted: oklch(0.235 0.012 265);
+    --border: oklch(0.3 0.013 265);
+    --foreground: oklch(0.96 0.005 265);
+    --muted: oklch(0.73 0.015 265);
+
+    color-scheme: dark;
+}
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-surface: var(--surface);
+    --color-surface-muted: var(--surface-muted);
+    --color-border: var(--border);
+    --color-foreground: var(--foreground);
+    --color-muted: var(--muted);
+    --color-accent: var(--accent);
+    --color-accent-strong: var(--accent-strong);
+    --color-accent-contrast: var(--accent-contrast);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Base
+|--------------------------------------------------------------------------
+*/
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+    }
+
+    body {
+        @apply bg-background font-sans text-foreground antialiased;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+    }
+
+    ::selection {
+        background: color-mix(in oklab, var(--accent) 30%, transparent);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Components
+|--------------------------------------------------------------------------
+*/
+@layer components {
+    .container-page {
+        @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors;
+    }
+
+    .btn-primary {
+        @apply bg-accent text-accent-contrast hover:bg-accent-strong;
+    }
+
+    .btn-secondary {
+        @apply border border-border bg-surface text-foreground hover:border-accent hover:text-accent;
+    }
+
+    .card {
+        @apply rounded-2xl border border-border bg-surface;
+    }
+
+    .chip {
+        @apply inline-flex items-center rounded-md border border-border bg-surface-muted px-2 py-0.5 font-mono text-xs text-muted;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium;
+    }
+
+    .badge-accent {
+        @apply bg-accent/12 text-accent ring-1 ring-accent/25 ring-inset;
+    }
+
+    .badge-success {
+        @apply bg-emerald-500/12 text-emerald-700 ring-1 ring-emerald-600/25 ring-inset dark:text-emerald-300 dark:ring-emerald-400/25;
+    }
+
+    .badge-warning {
+        @apply bg-amber-500/12 text-amber-800 ring-1 ring-amber-600/25 ring-inset dark:text-amber-300 dark:ring-amber-400/25;
+    }
+
+    .eyebrow {
+        @apply font-mono text-sm text-accent;
+    }
+
+    .link {
+        @apply font-medium text-accent underline-offset-4 hover:underline;
+    }
+
+    /* Rich text written in the dashboard (sanitized before rendering). */
+    .prose-content {
+        @apply space-y-4 leading-relaxed text-muted;
+
+        & a {
+            @apply text-accent underline underline-offset-4;
+        }
+
+        & strong {
+            @apply font-semibold text-foreground;
+        }
+
+        & ul {
+            @apply list-disc space-y-2 ps-5 marker:text-accent;
+        }
+
+        & ol {
+            @apply list-decimal space-y-2 ps-5 marker:text-accent;
+        }
+
+        & h2,
+        & h3 {
+            @apply font-semibold text-foreground;
+        }
+
+        & code {
+            @apply rounded bg-surface-muted px-1 py-0.5 font-mono text-sm;
+        }
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Motion (subtle, CSS-only, and off when the user prefers reduced motion)
+|--------------------------------------------------------------------------
+*/
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .animate-enter {
+        animation: fade-up 0.7s ease-out both;
+    }
+
+    /* Scroll-driven reveal where supported; other browsers simply show the content. */
+    @supports (animation-timeline: view()) {
+        .reveal {
+            animation: fade-up linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 20%;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

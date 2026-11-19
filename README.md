@@ -24,7 +24,7 @@ Filament admin panel, where every piece of public content is editable from the d
 | Public frontend  | Blade, Livewire 4, Alpine.js, Tailwind CSS v4 (Vite)      |
 | Database         | MySQL 8.4                                                 |
 | Tests            | Pest 5 (incl. architecture tests)                         |
-| Code quality     | Laravel Pint, Larastan (PHPStan level 6)                  |
+| Code quality     | Laravel Pint, Larastan (PHPStan level 8)                  |
 | Local env        | Laravel Sail (Docker): app, MySQL, Mailpit                |
 | CI               | GitHub Actions                                            |
 

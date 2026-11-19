@@ -29,7 +29,7 @@ class ProjectFactory extends Factory
             'tagline' => fake()->sentence(8),
             'summary' => fake()->paragraph(),
             'company' => fake()->company(),
-            'year' => (int) fake()->year(),
+            'year' => fake()->numberBetween(2015, 2026),
             'status' => fake()->randomElement(ProjectStatus::cases()),
             'problem' => fake()->paragraph(),
             'my_role' => fake()->sentence(),

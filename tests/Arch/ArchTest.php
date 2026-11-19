@@ -48,3 +48,8 @@ arch('seeders are final')
     ->expect('Database\Seeders')
     ->classes()
     ->toBeFinal();
+
+arch('Filament classes, queries and middleware are final')
+    ->expect(['App\\Filament', 'App\\Queries', 'App\\Http\\Middleware', 'App\\Support'])
+    ->classes()
+    ->toBeFinal();

@@ -12,3 +12,7 @@ parameters:
         - routes/
 
     tmpDir: storage/framework/cache/phpstan
+
+    # Read model casts from the array returned by casts() so casted attributes
+    # (enums, dates, arrays) get their real types.
+    parseModelCastsMethod: true

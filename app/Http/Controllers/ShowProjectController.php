@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\RecordProjectViewAction;
 use App\Queries\GetProjectPageContent;
+use App\Support\Seo\SeoData;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,9 @@ final class ShowProjectController extends Controller
 
         $recordView($page->project, $request);
 
-        return view('projects.show', ['page' => $page]);
+        return view('projects.show', [
+            'page' => $page,
+            'seo' => SeoData::forProject($page),
+        ]);
     }
 }

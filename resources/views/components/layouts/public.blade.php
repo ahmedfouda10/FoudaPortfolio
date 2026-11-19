@@ -1,7 +1,6 @@
 @props([
     'settings',
-    'title',
-    'description' => null,
+    'seo',
     'onHome' => false,
     'sections' => [],
 ])
@@ -11,12 +10,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title }}</title>
-    @if (filled($description))
-        <meta name="description" content="{{ $description }}">
-    @endif
-    <link rel="canonical" href="{{ url()->current() }}">
+    <x-site.seo :seo="$seo" />
     <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#18181f" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="{{ route('favicon') }}" type="image/svg+xml">
 
     {{-- Applies the saved (or system) theme before first paint: no flash of the wrong theme. Dark by default. --}}
     <script>

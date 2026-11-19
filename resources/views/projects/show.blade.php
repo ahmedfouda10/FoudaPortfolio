@@ -3,6 +3,7 @@
     $project = $page->project;
     $settings = $page->settings;
     $gallery = $project->images->map(fn ($image): array => [
+        'path' => $image->path,
         'src' => Storage::disk('public')->url($image->path),
         'alt' => $image->alt ?? $project->title,
         'caption' => $image->caption,
@@ -17,8 +18,7 @@
 @endphp
 <x-layouts.public
     :settings="$settings"
-    :title="$project->meta_title ?: $project->title.' — '.$settings->full_name"
-    :description="$project->meta_description ?: ($project->summary ?? $project->tagline)"
+    :seo="$seo"
     :sections="['about', 'experience', 'skills', 'services', 'projects', 'education', 'contact']"
 >
     <article>
@@ -53,14 +53,13 @@
                 </div>
 
                 @if (filled($project->cover_image))
-                    <img
-                        src="{{ Storage::disk('public')->url($project->cover_image) }}"
-                        alt="{{ $project->cover_image_alt ?? '' }}"
-                        width="1600"
-                        height="900"
-                        fetchpriority="high"
+                    <x-responsive-image
+                        :path="$project->cover_image"
+                        :alt="$project->cover_image_alt ?? ''"
+                        sizes="(min-width: 1152px) 1088px, calc(100vw - 2rem)"
+                        :priority="true"
                         class="animate-enter mt-10 aspect-video w-full rounded-2xl border border-border object-cover object-top shadow-2xl shadow-accent/10"
-                    >
+                    />
                 @endif
             </div>
         </header>
@@ -99,7 +98,7 @@
                                         class="block w-full overflow-hidden rounded-xl border border-border transition-colors hover:border-accent"
                                     >
                                         <span class="sr-only">{{ __('site.project.open_image', ['alt' => $image['alt']]) }}</span>
-                                        <img src="{{ $image['src'] }}" alt="" width="800" height="450" loading="lazy" decoding="async" class="aspect-video w-full object-cover">
+                                        <x-responsive-image :path="$image['path']" sizes="(min-width: 640px) 33vw, 50vw" class="aspect-video w-full object-cover" />
                                     </button>
                                 </li>
                             @endforeach

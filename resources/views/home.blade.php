@@ -1,12 +1,12 @@
 @php
     /** @var \App\Data\HomePageContent $content */
+    /** @var \App\Support\Seo\SeoData $seo */
     $settings = $content->settings;
     $sections = $content->sections();
 @endphp
 <x-layouts.public
     :settings="$settings"
-    :title="$settings->meta_title ?: trim($settings->full_name.' — '.$settings->headline, ' —')"
-    :description="$settings->meta_description ?: $settings->short_bio"
+    :seo="$seo"
     :on-home="true"
     :sections="$sections"
 >

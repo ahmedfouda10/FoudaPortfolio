@@ -49,8 +49,8 @@ arch('seeders are final')
     ->classes()
     ->toBeFinal();
 
-arch('Filament classes, queries and middleware are final')
-    ->expect(['App\\Filament', 'App\\Queries', 'App\\Http\\Middleware', 'App\\Support'])
+arch('Filament classes, Livewire components, queries and middleware are final')
+    ->expect(['App\\Filament', 'App\\Livewire', 'App\\Queries', 'App\\Http\\Middleware', 'App\\Support', 'App\\Notifications', 'App\\Mail'])
     ->classes()
     ->toBeFinal();
 
@@ -64,3 +64,8 @@ arch('actions are final, invokable classes')
     ->toBeFinal()
     ->toHaveSuffix('Action')
     ->toHaveMethod('__invoke');
+
+arch('emails and notifications are always queued')
+    ->expect(['App\\Notifications', 'App\\Mail'])
+    ->classes()
+    ->toImplement(Illuminate\Contracts\Queue\ShouldQueue::class);

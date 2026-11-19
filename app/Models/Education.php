@@ -6,13 +6,16 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSortOrder;
 use App\Models\Concerns\HasVisibility;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\EducationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[Table('education')]
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable([
     'institution', 'degree', 'field', 'start_year', 'end_year',
     'description', 'sort_order', 'is_visible',

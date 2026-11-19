@@ -6,12 +6,15 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSortOrder;
 use App\Models\Concerns\HasVisibility;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\SkillFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable(['skill_group_id', 'name', 'icon', 'sort_order', 'is_visible'])]
 class Skill extends Model
 {

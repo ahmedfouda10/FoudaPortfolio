@@ -6,14 +6,17 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSortOrder;
 use App\Models\Concerns\HasVisibility;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\CertificationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * A certificate or training programme. `credential_urls` is a list of URLs.
  */
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable([
     'title', 'issuer', 'started_on', 'completed_on', 'is_in_progress',
     'credential_urls', 'description', 'sort_order', 'is_visible',

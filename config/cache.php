@@ -131,8 +131,27 @@ return [
     | storage. By default, no PHP classes will be unserialized from your
     | cache to prevent gadget chain attacks if your APP_KEY is leaked.
     |
+    | Only the read-only content of the public pages is allowed here, so
+    | it can be cached as models (see App\\Support\\PublicContentCache).
+    |
     */
 
-    'serializable_classes' => false,
+    'serializable_classes' => [
+        App\Data\HomePageContent::class,
+        App\Data\ProjectPageContent::class,
+        App\Models\SiteSetting::class,
+        App\Models\Experience::class,
+        App\Models\SkillGroup::class,
+        App\Models\Skill::class,
+        App\Models\Service::class,
+        App\Models\Project::class,
+        App\Models\ProjectImage::class,
+        App\Models\Education::class,
+        App\Models\Certification::class,
+        App\Enums\EmploymentType::class,
+        App\Enums\ProjectStatus::class,
+        Illuminate\Database\Eloquent\Collection::class,
+        Carbon\CarbonImmutable::class,
+    ],
 
 ];

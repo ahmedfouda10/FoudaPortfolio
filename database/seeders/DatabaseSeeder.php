@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Support\PublicContentCache;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,5 +30,8 @@ final class DatabaseSeeder extends Seeder
             EducationSeeder::class,
             CertificationSeeder::class,
         ]);
+
+        // Model events are muted while seeding, so refresh the public pages explicitly.
+        app(PublicContentCache::class)->flush();
     }
 }

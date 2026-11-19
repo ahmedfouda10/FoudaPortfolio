@@ -7,11 +7,14 @@ namespace App\Models;
 use App\Enums\EmploymentType;
 use App\Models\Concerns\HasSortOrder;
 use App\Models\Concerns\HasVisibility;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\ExperienceFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable([
     'company', 'role', 'location', 'employment_type', 'start_date', 'end_date',
     'description', 'bullet_points', 'sort_order', 'is_visible',

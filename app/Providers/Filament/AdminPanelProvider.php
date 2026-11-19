@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\AvatarProviders\InitialsAvatarProvider;
 use App\Http\Middleware\PreventIndexingAndCaching;
+use App\Support\PublicContentCache;
 use Filament\Auth\MultiFactor\App\AppAuthentication;
 use Filament\Enums\ThemeMode;
 use Filament\Forms\Components\Field;
@@ -20,6 +21,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -93,6 +95,18 @@ class AdminPanelProvider extends PanelProvider
     public function boot(): void
     {
         $this->translateLabelsFromLangFiles();
+        $this->flushPublicCacheAfterReordering();
+    }
+
+    /**
+     * Drag-and-drop reordering updates rows with a single query (no model
+     * events), so the public pages are refreshed explicitly afterwards.
+     */
+    private function flushPublicCacheAfterReordering(): void
+    {
+        Table::configureUsing(function (Table $table): void {
+            $table->afterReordering(fn () => app(PublicContentCache::class)->flush());
+        });
     }
 
     /**

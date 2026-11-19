@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ProjectStatus;
+use App\Models\Concerns\DeletesReplacedFiles;
 use App\Models\Concerns\HasSortOrder;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * `links` is a list of `{label, url, type}` items where `type` is a ProjectLinkType value.
  */
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable([
     'title', 'slug', 'subtitle', 'tagline', 'summary', 'company', 'year', 'status',
     'problem', 'my_role', 'solution', 'results', 'tech_stack', 'integrations',
@@ -28,10 +32,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Project extends Model
 {
+    use DeletesReplacedFiles;
+
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
 
     use HasSortOrder;
+
+    /**
+     * Gallery rows are removed through their models (not only by the FK cascade)
+     * so their files are deleted from disk too.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Project $project): void {
+            $project->images()->get()->each(fn (ProjectImage $image): ?bool => $image->delete());
+        });
+    }
 
     /**
      * Gallery images, in the order arranged in the dashboard.
@@ -70,6 +87,16 @@ class Project extends Model
     protected function featuredFirst(Builder $query): void
     {
         $query->orderByDesc($this->qualifyColumn('is_featured'))->ordered();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function fileAttributes(): array
+    {
+        return [
+            'cover_image' => 'public',
+        ];
     }
 
     /**

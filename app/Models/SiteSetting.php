@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\DeletesReplacedFiles;
+use App\Observers\FlushPublicContentCache;
 use Database\Factories\SiteSettingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Single-row settings: identity, contact links, hero stats, About section and SEO defaults.
  */
+#[ObservedBy(FlushPublicContentCache::class)]
 #[Fillable([
     'full_name', 'headline', 'short_bio', 'location', 'availability_status', 'avatar', 'cv_file',
     'email', 'phone', 'whatsapp', 'linkedin_url', 'github_url', 'freelancer_url', 'source_code_url',
@@ -21,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
 ])]
 class SiteSetting extends Model
 {
+    use DeletesReplacedFiles;
+
     /** @use HasFactory<SiteSettingFactory> */
     use HasFactory;
 
@@ -32,6 +38,18 @@ class SiteSetting extends Model
         return self::query()->oldest('id')->firstOrCreate([], [
             'full_name' => (string) config('app.name'),
         ]);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function fileAttributes(): array
+    {
+        return [
+            'avatar' => 'public',
+            'og_image' => 'public',
+            'cv_file' => 'local',
+        ];
     }
 
     /**

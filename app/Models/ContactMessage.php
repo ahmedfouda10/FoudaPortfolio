@@ -29,6 +29,19 @@ class ContactMessage extends Model
         'status' => ContactMessageStatus::New->value,
     ];
 
+    public function markAs(ContactMessageStatus $status): void
+    {
+        $this->update(['status' => $status]);
+    }
+
+    /**
+     * The reply link opens the admin's mail client with the recipient and subject pre-filled.
+     */
+    public function replyMailtoUrl(): string
+    {
+        return 'mailto:'.rawurlencode($this->email).'?subject='.rawurlencode("Re: {$this->subject}");
+    }
+
     /**
      * Messages that have not been opened in the dashboard yet.
      *

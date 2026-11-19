@@ -47,7 +47,7 @@
             </div>
 
             @if ($stats !== [])
-                <dl class="mt-10 grid max-w-xl grid-cols-3 gap-4 border-t border-border pt-8" aria-label="{{ __('site.hero.stats') }}">
+                <dl class="mt-10 grid max-w-xl grid-cols-3 gap-4 border-t border-border pt-8">
                     @foreach ($stats as $label => $value)
                         <div class="flex flex-col gap-1">
                             <dt class="text-xs text-muted sm:text-sm">{{ __("site.hero.{$label}") }}</dt>

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@source '../../storage/framework/views/*.php';
+/* Only the site's own templates: scanning compiled views would pull in every Filament class. */
 @source '../views';
 
 /* Dark mode is driven by the `dark` class on <html> (see the theme script in the layout). */
@@ -193,9 +193,20 @@
     }
 }
 
+/* Above the fold: movement only, never opacity, so the content is painted (and counted as LCP) immediately. */
+@keyframes rise {
+    from {
+        transform: translateY(0.75rem);
+    }
+
+    to {
+        transform: none;
+    }
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .animate-enter {
-        animation: fade-up 0.7s ease-out both;
+        animation: rise 0.6s ease-out both;
     }
 
     /* Scroll-driven reveal where supported; other browsers simply show the content. */

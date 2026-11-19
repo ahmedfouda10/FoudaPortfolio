@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Support\IpHasher;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModels();
         $this->configureDates();
         $this->configureDatabase();
+        $this->configureTrustedProxies();
     }
 
     /**
@@ -43,6 +45,17 @@ class AppServiceProvider extends ServiceProvider
     private function configureDates(): void
     {
         Date::use(CarbonImmutable::class);
+    }
+
+    private function configureTrustedProxies(): void
+    {
+        $proxies = config('portfolio.trusted_proxies');
+
+        if (! is_string($proxies) || trim($proxies) === '') {
+            return;
+        }
+
+        TrustProxies::at(trim($proxies) === '*' ? '*' : array_map(trim(...), explode(',', $proxies)));
     }
 
     /**

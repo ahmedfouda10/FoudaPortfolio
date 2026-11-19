@@ -56,4 +56,17 @@ return [
         'decay_minutes' => 10,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted proxies
+    |--------------------------------------------------------------------------
+    |
+    | Comma-separated IPs (or "*") of the load balancer / Cloudflare in front of
+    | the app, so visitor IPs (rate limiting, hashing) and HTTPS are detected
+    | correctly. Read through config so it also works with a cached config.
+    |
+    */
+
+    'trusted_proxies' => env('TRUSTED_PROXIES'),
+
 ];

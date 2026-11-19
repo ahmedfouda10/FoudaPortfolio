@@ -18,6 +18,9 @@ return [
         'name' => env('ADMIN_NAME', 'Admin'),
         'email' => env('ADMIN_EMAIL'),
         'password' => env('ADMIN_PASSWORD'),
+
+        // Force the admin to set up app-based MFA (authenticator app) before using the dashboard.
+        'require_mfa' => (bool) env('ADMIN_REQUIRE_MFA', true),
     ],
 
     /*

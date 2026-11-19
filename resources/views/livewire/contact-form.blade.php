@@ -34,7 +34,7 @@
                 <div class="mt-2 grid gap-2 sm:grid-cols-3">
                     @foreach ($inquiryTypes as $type)
                         <label class="flex cursor-pointer items-center gap-2.5 rounded-lg border border-border bg-background px-3.5 py-2.5 text-sm transition-colors hover:border-accent has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40">
-                            <input type="radio" wire:model.live="form.inquiryType" value="{{ $type->value }}" class="size-4 accent-[var(--accent)]">
+                            <input type="radio" name="inquiry_type" wire:model.live="form.inquiryType" value="{{ $type->value }}" class="size-4 accent-[var(--accent)]">
                             {{ $type->getLabel() }}
                         </label>
                     @endforeach
@@ -54,7 +54,7 @@
             {{-- Honeypot: hidden from people; bots that fill it in get a fake success. --}}
             <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
                 <label for="contact-website">{{ __('contact.fields.website') }}</label>
-                <input id="contact-website" type="text" wire:model="website" tabindex="-1" autocomplete="off">
+                <input id="contact-website" name="website" type="text" wire:model="website" tabindex="-1" autocomplete="off">
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-4 pt-1">

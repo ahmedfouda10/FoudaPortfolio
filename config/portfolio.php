@@ -39,4 +39,21 @@ return [
         'whatsapp' => env('CONTACT_WHATSAPP'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Contact form
+    |--------------------------------------------------------------------------
+    |
+    | Spam protection (honeypot + minimum time to submit + rate limit per
+    | hashed IP) and the optional auto-reply sent to the visitor.
+    |
+    */
+
+    'contact_form' => [
+        'auto_reply' => (bool) env('CONTACT_AUTO_REPLY', true),
+        'min_seconds_to_submit' => 3,
+        'max_submissions' => 3,
+        'decay_minutes' => 10,
+    ],
+
 ];

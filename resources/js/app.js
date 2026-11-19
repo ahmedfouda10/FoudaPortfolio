@@ -14,4 +14,17 @@ Alpine.data('navigation', navigation);
 Alpine.data('projectFilter', projectFilter);
 Alpine.data('lightbox', lightbox);
 
+// After a failed submit, move keyboard focus to the first invalid field of forms that opt in.
+Livewire.hook('commit', ({ component, succeed }) => {
+    succeed(() => {
+        window.requestAnimationFrame(() => {
+            if (!component.el.hasAttribute('data-focus-first-error')) {
+                return;
+            }
+
+            component.el.querySelector('[aria-invalid="true"]')?.focus();
+        });
+    });
+});
+
 Livewire.start();

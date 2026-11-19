@@ -37,6 +37,6 @@
     @endif
 
     <x-home.contact :settings="$settings">
-        {{-- The Livewire contact form is added in the next phase. --}}
+        <livewire:contact-form />
     </x-home.contact>
 </x-layouts.public>

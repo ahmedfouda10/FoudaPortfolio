@@ -225,7 +225,7 @@
                     <p class="text-xl font-semibold">{{ __('site.project.cta_title') }}</p>
                     <p class="mt-2 text-muted">{{ __('site.project.cta_text') }}</p>
                     <div class="mt-5">
-                        <a href="{{ route('home') }}#contact" class="btn btn-primary">{{ __('site.project.cta_button') }}</a>
+                        <a href="{{ route('home', ['inquiry' => \App\Enums\ContactInquiryType::FreelanceProject->value]) }}#contact" class="btn btn-primary">{{ __('site.project.cta_button') }}</a>
                     </div>
                 </div>
             </div>

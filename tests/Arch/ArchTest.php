@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Model;
+
 /*
 |--------------------------------------------------------------------------
 | Architecture rules
@@ -28,3 +30,21 @@ arch('env() is only called from config files')
 arch('PHP security preset')
     ->preset()
     ->security();
+
+arch('enums are string backed')
+    ->expect('App\Enums')
+    ->toBeStringBackedEnums();
+
+arch('models extend Eloquent')
+    ->expect('App\Models')
+    ->classes()
+    ->toExtend(Model::class);
+
+arch('model concerns are traits')
+    ->expect('App\Models\Concerns')
+    ->toBeTraits();
+
+arch('seeders are final')
+    ->expect('Database\Seeders')
+    ->classes()
+    ->toBeFinal();

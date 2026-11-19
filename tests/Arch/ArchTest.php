@@ -53,3 +53,14 @@ arch('Filament classes, queries and middleware are final')
     ->expect(['App\\Filament', 'App\\Queries', 'App\\Http\\Middleware', 'App\\Support'])
     ->classes()
     ->toBeFinal();
+
+arch('controllers stay thin and never touch the query builder directly')
+    ->expect('App\\Http\\Controllers')
+    ->not->toUse(['Illuminate\\Support\\Facades\\DB', 'Illuminate\\Database\\Query\\Builder']);
+
+arch('actions are final, invokable classes')
+    ->expect('App\\Actions')
+    ->classes()
+    ->toBeFinal()
+    ->toHaveSuffix('Action')
+    ->toHaveMethod('__invoke');

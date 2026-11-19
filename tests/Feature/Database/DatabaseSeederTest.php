@@ -70,13 +70,17 @@ it('seeds the real portfolio content', function (): void {
         ->toBe(['2loyal', 'conte']);
 });
 
-it('generates a placeholder cover for every seeded project', function (): void {
+it('gives every seeded project a cover: a website screenshot or a placeholder', function (): void {
     $this->seed(DatabaseSeeder::class);
 
     Project::query()->each(function (Project $project): void {
-        expect($project->cover_image)->not->toBeNull();
+        expect($project->cover_image)->not->toBeNull()
+            ->and($project->cover_image_alt)->not->toBeEmpty();
         Storage::disk('public')->assertExists((string) $project->cover_image);
     });
+
+    expect(Project::query()->where('slug', '2loyal')->value('cover_image'))->toBe('projects/covers/2loyal.webp')
+        ->and(Project::query()->where('slug', 'tracking')->value('cover_image'))->toBe('projects/covers/tracking-placeholder.svg');
 });
 
 it('can run again without duplicating or overwriting content', function (): void {

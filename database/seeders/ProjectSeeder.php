@@ -9,6 +9,8 @@ use App\Enums\ProjectStatus;
 use App\Models\Project;
 use Database\Seeders\Support\PlaceholderCover;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 final class ProjectSeeder extends Seeder
 {
@@ -21,12 +23,37 @@ final class ProjectSeeder extends Seeder
 
             Project::query()->create([
                 ...$project,
-                'cover_image' => PlaceholderCover::store($project['slug'], $project['title']),
-                'cover_image_alt' => "{$project['title']} — placeholder cover",
+                ...$this->cover($project['slug'], $project['title']),
                 'is_published' => true,
                 'sort_order' => $index + 1,
             ]);
         }
+    }
+
+    /**
+     * Use the bundled screenshot of the live website when there is one,
+     * otherwise generate a neutral placeholder. Both are replaceable from the dashboard.
+     *
+     * @return array{cover_image: string, cover_image_alt: string}
+     */
+    private function cover(string $slug, string $title): array
+    {
+        $screenshot = database_path("seeders/images/projects/{$slug}.webp");
+
+        if (! File::exists($screenshot)) {
+            return [
+                'cover_image' => PlaceholderCover::store($slug, $title),
+                'cover_image_alt' => "{$title} — placeholder cover",
+            ];
+        }
+
+        $path = "projects/covers/{$slug}.webp";
+        Storage::disk('public')->put($path, File::get($screenshot));
+
+        return [
+            'cover_image' => $path,
+            'cover_image_alt' => "Screenshot of the {$title} website",
+        ];
     }
 
     /**

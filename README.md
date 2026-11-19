@@ -1,6 +1,6 @@
 # Ahmed Fouda — Portfolio
 
-[![CI](https://github.com/TODO-github-user/TODO-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/TODO-github-user/TODO-repo/actions/workflows/ci.yml)
+[![CI](https://github.com/ahmedfouda10/FoudaPortfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/ahmedfouda10/FoudaPortfolio/actions/workflows/ci.yml)
 ![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)
 ![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![Filament 5](https://img.shields.io/badge/Filament-5-FDAE4B)
@@ -34,7 +34,7 @@ Requirements: Docker, and PHP 8.4 + Composer on the host for the first install
 (or use the [Sail-without-PHP](https://laravel.com/docs/sail#installing-composer-dependencies-for-existing-projects) one-liner).
 
 ```bash
-git clone https://github.com/TODO-github-user/TODO-repo.git portfolio
+git clone https://github.com/ahmedfouda10/FoudaPortfolio.git portfolio
 cd portfolio
 
 composer install

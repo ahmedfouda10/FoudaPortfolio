@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\ProjectStatus;
 use App\Models\Concerns\DeletesReplacedFiles;
+use App\Models\Concerns\GeneratesImageVariants;
 use App\Models\Concerns\HasSortOrder;
 use App\Observers\FlushPublicContentCache;
 use Database\Factories\ProjectFactory;
@@ -33,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Project extends Model
 {
     use DeletesReplacedFiles;
+    use GeneratesImageVariants;
 
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
@@ -87,6 +89,16 @@ class Project extends Model
     protected function featuredFirst(Builder $query): void
     {
         $query->orderByDesc($this->qualifyColumn('is_featured'))->ordered();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function responsiveImageAttributes(): array
+    {
+        return [
+            'cover_image' => 'public',
+        ];
     }
 
     /**

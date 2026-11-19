@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\DeletesReplacedFiles;
+use App\Models\Concerns\GeneratesImageVariants;
 use App\Observers\FlushPublicContentCache;
 use Database\Factories\ProjectImageFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProjectImage extends Model
 {
     use DeletesReplacedFiles;
+    use GeneratesImageVariants;
 
     /** @use HasFactory<ProjectImageFactory> */
     use HasFactory;
@@ -28,6 +30,16 @@ class ProjectImage extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function responsiveImageAttributes(): array
+    {
+        return [
+            'path' => 'public',
+        ];
     }
 
     /**

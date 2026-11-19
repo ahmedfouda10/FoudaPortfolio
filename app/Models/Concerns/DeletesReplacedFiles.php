@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Concerns;
 
+use App\Support\Images\ImageVariants;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Removes uploaded files from disk when they are replaced, cleared or when
- * the record is deleted, so the storage never fills up with orphans.
+ * Removes uploaded files (and their resized variants) from disk when they are
+ * replaced, cleared or when the record is deleted, so storage never fills up
+ * with orphans.
  */
 trait DeletesReplacedFiles
 {
@@ -40,6 +42,7 @@ trait DeletesReplacedFiles
     {
         if (is_string($path) && $path !== '') {
             Storage::disk($disk)->delete($path);
+            app(ImageVariants::class)->delete($disk, $path);
         }
     }
 }

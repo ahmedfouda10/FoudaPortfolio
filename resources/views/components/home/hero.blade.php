@@ -62,14 +62,15 @@
 
         @if (filled($settings->avatar))
             <div class="animate-enter mx-auto lg:mx-0">
-                <img
-                    src="{{ Storage::disk('public')->url($settings->avatar) }}"
-                    alt="{{ __('site.hero.photo_alt', ['name' => $settings->full_name]) }}"
-                    width="320"
-                    height="320"
-                    fetchpriority="high"
+                <x-responsive-image
+                    :path="$settings->avatar"
+                    :alt="__('site.hero.photo_alt', ['name' => $settings->full_name])"
+                    sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 224px"
+                    :priority="true"
+                    :fallback-width="320"
+                    :fallback-height="320"
                     class="size-56 rounded-3xl border border-border object-cover shadow-2xl shadow-accent/10 sm:size-72 lg:size-80"
-                >
+                />
             </div>
         @endif
     </div>

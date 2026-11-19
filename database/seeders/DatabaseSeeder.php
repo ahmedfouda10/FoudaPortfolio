@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Support\PublicContentCache;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * Seeds the admin user and the real portfolio content.
@@ -31,7 +32,9 @@ final class DatabaseSeeder extends Seeder
             CertificationSeeder::class,
         ]);
 
-        // Model events are muted while seeding, so refresh the public pages explicitly.
+        // Model events are muted while seeding: build the image variants and
+        // refresh the public pages explicitly.
+        Artisan::call('images:variants');
         app(PublicContentCache::class)->flush();
     }
 }

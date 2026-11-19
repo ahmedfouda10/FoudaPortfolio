@@ -2,15 +2,12 @@
 <article class="card group relative flex h-full flex-col overflow-hidden transition-colors hover:border-accent/60">
     <div class="overflow-hidden border-b border-border bg-surface-muted">
         @if (filled($project->cover_image))
-            <img
-                src="{{ Storage::disk('public')->url($project->cover_image) }}"
-                alt="{{ $project->cover_image_alt ?? '' }}"
-                width="1600"
-                height="900"
-                loading="lazy"
-                decoding="async"
+            <x-responsive-image
+                :path="$project->cover_image"
+                :alt="$project->cover_image_alt ?? ''"
+                sizes="(min-width: 1152px) 544px, (min-width: 768px) 50vw, 100vw"
                 class="aspect-video w-full object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.02]"
-            >
+            />
         @else
             <div class="flex aspect-video items-center justify-center font-mono text-2xl font-semibold text-accent" aria-hidden="true">{{ $project->title }}</div>
         @endif

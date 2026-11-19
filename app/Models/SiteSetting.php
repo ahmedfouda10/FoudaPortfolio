@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\DeletesReplacedFiles;
+use App\Models\Concerns\GeneratesImageVariants;
 use App\Observers\FlushPublicContentCache;
 use Database\Factories\SiteSettingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
 class SiteSetting extends Model
 {
     use DeletesReplacedFiles;
+    use GeneratesImageVariants;
 
     /** @use HasFactory<SiteSettingFactory> */
     use HasFactory;
@@ -38,6 +40,16 @@ class SiteSetting extends Model
         return self::query()->oldest('id')->firstOrCreate([], [
             'full_name' => (string) config('app.name'),
         ]);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function responsiveImageAttributes(): array
+    {
+        return [
+            'avatar' => 'public',
+        ];
     }
 
     /**

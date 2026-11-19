@@ -53,7 +53,7 @@
                                 <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                                     @foreach ($certification->credential_urls as $url)
                                         <li>
-                                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="link inline-flex items-center gap-1">
+                                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="link inline-flex min-h-8 items-center gap-1">
                                                 {{ count($certification->credential_urls) > 1 ? __('site.education.view_credential_n', ['number' => $loop->iteration]) : __('site.education.view_credential') }}
                                                 <x-heroicon-m-arrow-top-right-on-square class="size-3.5" aria-hidden="true" />
                                                 <span class="sr-only">{{ __('site.project.opens_in_new_tab') }}</span>

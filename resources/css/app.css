@@ -130,7 +130,7 @@
     }
 
     .badge-success {
-        @apply bg-emerald-500/12 text-emerald-700 ring-1 ring-emerald-600/25 ring-inset dark:text-emerald-300 dark:ring-emerald-400/25;
+        @apply bg-emerald-500/12 text-emerald-800 ring-1 ring-emerald-600/25 ring-inset dark:text-emerald-300 dark:ring-emerald-400/25;
     }
 
     .badge-warning {

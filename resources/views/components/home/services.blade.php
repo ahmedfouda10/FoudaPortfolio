@@ -11,7 +11,7 @@
                 <p class="mt-2 flex-1 leading-relaxed text-muted">{{ $service->short_description }}</p>
                 <a
                     href="#contact"
-                    class="link mt-5 inline-flex items-center gap-1 text-sm"
+                    class="link mt-4 inline-flex min-h-10 items-center gap-1 self-start text-sm"
                     x-data
                     x-on:click="$dispatch('contact-inquiry', { type: 'freelance_project', subject: @js($service->title) })"
                 >

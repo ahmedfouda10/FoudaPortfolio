@@ -8,7 +8,7 @@
     class="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md"
 >
     <nav aria-label="{{ __('site.nav.label') }}" class="container-page flex h-16 items-center justify-between gap-4">
-        <a href="{{ $onHome ? '#top' : route('home') }}" class="shrink-0 font-mono text-sm font-semibold tracking-tight">
+        <a href="{{ $onHome ? '#top' : route('home') }}" class="inline-flex min-h-10 shrink-0 items-center font-mono text-sm font-semibold tracking-tight">
             <span class="text-accent" aria-hidden="true">&lt;</span>{{ $settings->full_name }}<span class="text-accent" aria-hidden="true"> /&gt;</span>
         </a>
 
